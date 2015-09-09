@@ -1,0 +1,94 @@
+
+
+
+* Starting up simh on Linux
+
+  These days it's pretty easy to get Research Unix V7 up and running
+  on a GNU/Linux system.  Below are the steps adapted from 
+
+  
+** Retrieve V7 image.
+
+    #+BEGIN_SRC sh :tangle build_app.sh
+      wget http://ftp.fibranet.cat/UnixArchive/PDP-11/Boot_Images/v7_rl02_1145.gz
+    #+END_SRC
+
+** Install simh
+    #+BEGIN_SRC sh :tangle build_app.sh
+      sudo apt-get update
+      sudo apt-get install simh
+    #+END_SRC
+
+   
+** Run the emululator and boot the image
+
+   Note that there are actually a number of different prompts here:
+   {{$}} ordinary bash prompt; {{sim>}} the simh propt fro the
+   emulator; {{@}} the monitor prompt for the pdp11; {{:}} the boot
+   prompt for the pdp11; {{#}} the root shell for Unix V7.  If you're
+   an emacs user, there is considerable advantage in running things in
+   a emacs shell session buffer.
+
+    #+BEGIN_SRC sh :tangle build_app.sh
+      $ pdp11
+      sim> set cpu u18
+      sim> set rl0 RL02
+      sim> att rl0 v7_rl02_1145
+      sim> boot rl0
+      @boot
+      New Boot, known devices are hp ht rk rl rp tm vt
+      : rl(0,0)rl2unix
+      #
+    #+END_SRC
+
+** Hello world
+   
+   
+*** Create tar
+
+    This example shows how to tranfer files using a virtual disk
+
+     #+BEGIN_SRC sh :tangle build_app.sh
+       mkdir hello
+       cd hello
+       echo "#include<stdio.h>\
+       main()\
+       {\
+           printf("Hello World");\
+       }" > main.c
+       cd ..
+       tar --format=v7  cf hello.tar hello
+     #+END_SRC
+
+*** Unpack tar on V7
+
+
+    /etc/mknod mt0 b 3 0
+    chmod go-w mt0
+    cat /dev/mt0 | tar -xvf -
+
+    oops
+    Invalid magtape record length, PC: 002400 (MOV 177776,R0)
+
+
+     #+BEGIN_SRC sh :tangle build_app.sh
+     #+END_SRC
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+* References
+
+  - http://simh.trailing-edge.com/pdf/simh_doc.pdf
+  - http://www.nordier.com/software/diskfs.html
+  - /usr/share/doc-base/simh-pdp11
+  - http://gunkies.org/wiki/Installing_v7_on_SIMH
