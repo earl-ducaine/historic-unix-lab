@@ -92,3 +92,4 @@
   - http://www.nordier.com/software/diskfs.html
   - /usr/share/doc-base/simh-pdp11
   - http://gunkies.org/wiki/Installing_v7_on_SIMH
+  - http://mailman.trailing-edge.com/pipermail/simh/2009-May/002382.html
